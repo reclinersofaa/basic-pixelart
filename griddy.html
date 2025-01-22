@@ -6,16 +6,25 @@
 </head>
 <body>
     <div class = "header">ETCH N SKETCH!</div>
-    <div class = "griddy"></div>
-        <button class = "gridselector">Change grid</button>
-        <button class = "reset">Reset grid</button>
-        <button class = "colorsel">Select Color</button>
-        <button class = "bordtog">Apply Border</button>
+    <div class = "main">
+        <div class = "griddy"></div>
+        <div class = "alls">
+            <div class = "colorbar">
+                <div>Select Color: </div>
+                <input type = "color" value = "#Ff0000" class = "colorsel">
+            </div>
+            <button class = "gridselector">Change grid</button>
+            <button class = "reset">Reset grid</button>
+            <button class = "bordtog">Apply Border</button>
+        </div>
+    </div>
     <script>
         let size;
         let isBorderApplied = false;
         let selectCol = "red";
-        const grid = document.querySelector(".griddy");
+        const main = document.querySelector(".main");
+        const grid = main.querySelector(".griddy");
+        const alls = main.querySelector(".alls");
         function gridmake(a){
             grid.innerHTML = "";
             grid.style.gridTemplateColumns = `repeat(${a}, 20px)`;
@@ -48,7 +57,7 @@
                 input.placeholder = "Enter grid size";
                 input.classList.add("gridinput");
                 /*insertAfter(document.querySelector(".gridselector"),input)*/
-                document.body.insertBefore(input,document.querySelector(".reset"))
+                alls.insertBefore(input,document.querySelector(".reset"))
 
                 input.addEventListener("keydown", (event) => {
                     if (event.key === "Enter") {
@@ -58,7 +67,7 @@
                         } else {
                             alert("Please enter a valid grid size (1-64)");
                         }
-                        document.body.removeChild(input);
+                        alls.removeChild(input);
                     }
                 });
 
@@ -77,10 +86,9 @@
                 ? "Remove Border": "Apply Border";
         });
 
-        document.querySelector(".colorsel").addEventListener("click",() => {
+        /*document.querySelector(".colorsel").addEventListener("click",() => {
             const colorInp = document.createElement("input");
             colorInp.classList.add("colorinput");
-            colorInp.textContent = "Select Color";
             colorInp.type = "color";
             colorInp.value = "#Ff0000";
             document.body.insertBefore(colorInp,document.querySelector(".bordtog"))
@@ -88,6 +96,11 @@
                 selectCol = e.target.value;
             })
             
+        })*/
+
+        const colorInp = document.querySelector(".colorsel")
+        colorInp.addEventListener("input",(e) => {
+            selectCol = e.target.value;
         })
 
         document.querySelector(".griddy").addEventListener("click", (event) => {
@@ -99,6 +112,8 @@
         document.querySelector(".reset").addEventListener("click", () => {
             gridmake(size);
         })
+
+        
     </script>
 </body>
 </html>
