@@ -52,7 +52,10 @@
 
         document.querySelector(".gridselector").addEventListener("click", () => {
              {  
-                input = document.createElement("input");
+                if (document.querySelector(".gridinput")) {
+                    return; // Exit the function to prevent creating another input
+                }
+                const input = document.createElement("input");
                 input.type = "number";
                 input.placeholder = "Enter grid size";
                 input.classList.add("gridinput");
