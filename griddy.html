@@ -1,0 +1,104 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <link rel="stylesheet" href="gridstyles.css">
+</head>
+<body>
+    <div class = "header">ETCH N SKETCH!</div>
+    <div class = "griddy"></div>
+        <button class = "gridselector">Change grid</button>
+        <button class = "reset">Reset grid</button>
+        <button class = "colorsel">Select Color</button>
+        <button class = "bordtog">Apply Border</button>
+    <script>
+        let size;
+        let isBorderApplied = false;
+        let selectCol = "red";
+        const grid = document.querySelector(".griddy");
+        function gridmake(a){
+            grid.innerHTML = "";
+            grid.style.gridTemplateColumns = `repeat(${a}, 20px)`;
+            size = a;
+
+            for (var i = 0; i < a; i++){
+                var row = document.createElement("div");
+                row.classList.add("row");
+                grid.appendChild(row);
+                for (var j = 0; j < a; j++){
+                    var unit = document.createElement("div");
+                    unit.classList.add("unit");
+                    if (isBorderApplied) {
+                        unit.style.border = "solid black 1px";
+                    }
+                    row.appendChild(unit);
+                }
+            }
+        }
+        gridmake(16);
+
+        /*function insertAfter(referenceNode, newNode) {
+            referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+        }*/
+
+        document.querySelector(".gridselector").addEventListener("click", () => {
+             {  
+                input = document.createElement("input");
+                input.type = "number";
+                input.placeholder = "Enter grid size";
+                input.classList.add("gridinput");
+                /*insertAfter(document.querySelector(".gridselector"),input)*/
+                document.body.insertBefore(input,document.querySelector(".reset"))
+
+                input.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter") {
+                        const gridsize = parseInt(input.value);
+                        if (gridsize > 0 && gridsize <= 64) {
+                            gridmake(gridsize);
+                        } else {
+                            alert("Please enter a valid grid size (1-64)");
+                        }
+                        document.body.removeChild(input);
+                    }
+                });
+
+                input.focus();
+            }
+        });
+
+        document.querySelector(".bordtog").addEventListener("click", () => {
+            isBorderApplied = !isBorderApplied; // Toggle the border state
+
+            const units = document.querySelectorAll(".unit");
+            units.forEach((unit) => {
+                unit.style.border = isBorderApplied ? "solid black 1px" : "";
+            });
+            document.querySelector(".bordtog").textContent = isBorderApplied
+                ? "Remove Border": "Apply Border";
+        });
+
+        document.querySelector(".colorsel").addEventListener("click",() => {
+            const colorInp = document.createElement("input");
+            colorInp.classList.add("colorinput");
+            colorInp.textContent = "Select Color";
+            colorInp.type = "color";
+            colorInp.value = "#Ff0000";
+            document.body.insertBefore(colorInp,document.querySelector(".bordtog"))
+            colorInp.addEventListener("input",(e) => {
+                selectCol = e.target.value;
+            })
+            
+        })
+
+        document.querySelector(".griddy").addEventListener("click", (event) => {
+            if (event.target.classList.contains("unit")){
+                event.target.style.backgroundColor = selectCol;
+            }
+        })
+
+        document.querySelector(".reset").addEventListener("click", () => {
+            gridmake(size);
+        })
+    </script>
+</body>
+</html>
