@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="gridstyles.css">
 </head>
 <body>
-    <div class = "header">ETCH N SKETCH!</div>
+    <div class = "header">PixelArt</div>
     <div class = "main">
         <div class = "griddy"></div>
         <div class = "alls">
@@ -20,6 +20,7 @@
     </div>
     <script>
         let size;
+        let moused = false;
         let isBorderApplied = false;
         let selectCol = "red";
         const main = document.querySelector(".main");
@@ -89,7 +90,7 @@
                 ? "Remove Border": "Apply Border";
         });
 
-        /*document.querySelector(".colorsel").addEventListener("click",() => {
+        document.querySelector(".colorsel").addEventListener("click",() => {
             const colorInp = document.createElement("input");
             colorInp.classList.add("colorinput");
             colorInp.type = "color";
@@ -99,14 +100,16 @@
                 selectCol = e.target.value;
             })
             
-        })*/
+        })
+
+
 
         const colorInp = document.querySelector(".colorsel")
         colorInp.addEventListener("input",(e) => {
             selectCol = e.target.value;
         })
 
-        document.querySelector(".griddy").addEventListener("click", (event) => {
+        document.querySelector(".griddy").addEventListener("mousedown", (event) => {
             if (event.target.classList.contains("unit")){
                 event.target.style.backgroundColor = selectCol;
             }
